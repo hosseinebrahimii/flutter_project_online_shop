@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/home_page/home_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/banner.dart';
@@ -25,13 +26,13 @@ class HomePage extends StatelessWidget {
       backgroundColor: CustomColors.backgroundScreenColor,
       body: BlocBuilder<HomePageBloc, HomePageState>(
         builder: (context, state) {
-          return _getHomePageContent(state);
+          return _getHomePageContent(context, state);
         },
       ),
     );
   }
 
-  Widget _getHomePageContent(HomePageState state) {
+  Widget _getHomePageContent(BuildContext context, HomePageState state) {
     if (state is HomePageInitState || state is HomePageLoadingState) {
       return const SafeArea(
         child: Center(
@@ -47,74 +48,79 @@ class HomePage extends StatelessWidget {
       );
     }
     if (state is HomePageResponseState) {
-      return state.bannerList.fold(
-        (bannersListError) {
-          return SafeArea(
-            child: Center(
-              child: Text(bannersListError),
-            ),
-          );
+      return RefreshIndicator(
+        onRefresh: () async {
+          BlocProvider.of<HomePageBloc>(context).add(HomePageRequestEvent());
         },
-        (bannersList) {
-          return state.categoryList.fold(
-            (categoryListError) {
-              return SafeArea(
-                child: Center(
-                  child: Text(categoryListError),
-                ),
-              );
-            },
-            (categoryList) {
-              return state.productList.fold(
-                (productListError) {
-                  return SafeArea(
-                    child: Center(
-                      child: Text(productListError),
-                    ),
-                  );
-                },
-                (productList) {
-                  //main code ----------------------------------------------------
-                  return SafeArea(
-                    child: CustomScrollView(
-                      slivers: <Widget>[
-                        _getSearchBox(),
-                        SliverToBoxAdapter(
-                          child: Column(
-                            children: [
-                              _getBannerView(bannersList),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              _getCategoryHorizontalListView(
-                                categoryList,
-                                productList,
-                              ),
-                              _getItemShowCaseList(
-                                title: 'پرفروش ترین ها',
-                                productList: productList,
-                                productType: Popularity.bestSeller,
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              _getItemShowCaseList(
-                                title: 'پربازدید ترین ها',
-                                productList: productList,
-                                productType: Popularity.hottest,
-                              ),
-                            ],
+        child: state.bannerList.fold(
+          (bannersListError) {
+            return SafeArea(
+              child: Center(
+                child: Text(bannersListError),
+              ),
+            );
+          },
+          (bannersList) {
+            return state.categoryList.fold(
+              (categoryListError) {
+                return SafeArea(
+                  child: Center(
+                    child: Text(categoryListError),
+                  ),
+                );
+              },
+              (categoryList) {
+                return state.productList.fold(
+                  (productListError) {
+                    return SafeArea(
+                      child: Center(
+                        child: Text(productListError),
+                      ),
+                    );
+                  },
+                  (productList) {
+                    //main code ----------------------------------------------------
+                    return SafeArea(
+                      child: CustomScrollView(
+                        slivers: <Widget>[
+                          _getSearchBox(),
+                          SliverToBoxAdapter(
+                            child: Column(
+                              children: [
+                                _getBannerView(bannersList),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                _getCategoryHorizontalListView(
+                                  categoryList,
+                                  productList,
+                                ),
+                                _getItemShowCaseList(
+                                  title: 'پرفروش ترین ها',
+                                  productList: productList,
+                                  productType: Popularity.bestSeller,
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                _getItemShowCaseList(
+                                  title: 'پربازدید ترین ها',
+                                  productList: productList,
+                                  productType: Popularity.hottest,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  );
-                  //---------------------------------------------------- main code
-                },
-              );
-            },
-          );
-        },
+                        ],
+                      ),
+                    );
+                    //---------------------------------------------------- main code
+                  },
+                );
+              },
+            );
+          },
+        ),
       );
     } else {
       return const Center(
