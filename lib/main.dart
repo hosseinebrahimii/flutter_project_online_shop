@@ -39,7 +39,6 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) {
-            // return locator.get<HomePageBloc>();
             var bloc = locator.get<HomePageBloc>();
             bloc.add(HomePageRequestEvent());
             return bloc;
