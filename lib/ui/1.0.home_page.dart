@@ -14,15 +14,10 @@ import 'package:flutter_project_online_shop/widgets/category_horizontal_list.dar
 import 'package:flutter_project_online_shop/widgets/item_showcase_list.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   //homepage bloc was initialized in main.dart
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
