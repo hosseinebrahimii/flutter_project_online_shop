@@ -7,24 +7,8 @@ import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/purchased_product.dart';
 import 'package:flutter_project_online_shop/widgets/purchase_cart_item.dart';
 
-class PurchaseCartPage extends StatefulWidget {
+class PurchaseCartPage extends StatelessWidget {
   const PurchaseCartPage({super.key});
-
-  @override
-  State<PurchaseCartPage> createState() => _PurchaseCartPageState();
-}
-
-class _PurchaseCartPageState extends State<PurchaseCartPage> {
-  @override
-  void initState() {
-    BlocProvider.of<PurchaseCartPageBloc>(context).add(
-      PurchaseCartPageLoadingRequestEvent(),
-    );
-    BlocProvider.of<PurchaseCartPageBloc>(context).add(
-      PurchaseCartPagePaymentInitializationEvent(),
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +76,7 @@ class _PurchaseCartPageState extends State<PurchaseCartPage> {
                           left: 0,
                           right: 0,
                           height: 53,
-                          child: _getBuyButton(purchasedProductList),
+                          child: _getBuyButton(context, purchasedProductList),
                         )
                       ],
                     ),
@@ -146,7 +130,7 @@ class _PurchaseCartPageState extends State<PurchaseCartPage> {
                           left: 0,
                           right: 0,
                           height: 53,
-                          child: _getBuyButton(purchasedProductList),
+                          child: _getBuyButton(context, purchasedProductList),
                         )
                       ],
                     ),
@@ -209,7 +193,7 @@ class _PurchaseCartPageState extends State<PurchaseCartPage> {
     );
   }
 
-  ElevatedButton _getBuyButton(List<PurchasedProduct> purchasedProductList) {
+  ElevatedButton _getBuyButton(BuildContext context, List<PurchasedProduct> purchasedProductList) {
     var itemsPrice = purchasedProductList.fold<int>(0, (previousValue, element) => previousValue + element.finalPrice);
     return ElevatedButton(
       onPressed: () {

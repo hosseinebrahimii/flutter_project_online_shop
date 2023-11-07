@@ -8,6 +8,7 @@ import 'package:flutter_project_online_shop/bloc/home_page/home_page_event.dart'
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_event.dart';
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
 import 'package:flutter_project_online_shop/models/purchased_product.dart';
@@ -37,16 +38,31 @@ class MyApp extends StatelessWidget {
           create: (context) => locator.get<AuthenticationBloc>(),
         ),
         BlocProvider(
-          create: (context) => locator.get<CategoryPageBloc>()..add(CategoryPageRequestEvent()),
+          create: (context) => locator.get<CategoryPageBloc>()
+            ..add(
+              CategoryPageRequestEvent(),
+            ),
         ),
         BlocProvider(
-          create: (context) => locator.get<HomePageBloc>()..add(HomePageRequestEvent()),
+          create: (context) => locator.get<HomePageBloc>()
+            ..add(
+              HomePageRequestEvent(),
+            ),
         ),
         BlocProvider(
-          create: (context) => locator.get<ProductDetailPageBloc>()..add(ProductDetailPageRequestEvent()),
+          create: (context) => locator.get<ProductDetailPageBloc>()
+            ..add(
+              ProductDetailPageRequestEvent(),
+            ),
         ),
         BlocProvider(
-          create: (context) => locator.get<PurchaseCartPageBloc>(),
+          create: (context) => locator.get<PurchaseCartPageBloc>()
+            ..add(
+              PurchaseCartPageLoadingRequestEvent(),
+            )
+            ..add(
+              PurchaseCartPagePaymentInitializationEvent(),
+            ),
         ),
       ],
       child: const MaterialApp(
