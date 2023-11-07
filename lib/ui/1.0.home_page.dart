@@ -13,6 +13,7 @@ import 'package:flutter_project_online_shop/widgets/banner_slider.dart';
 import 'package:flutter_project_online_shop/widgets/cached_image.dart';
 import 'package:flutter_project_online_shop/widgets/category_horizontal_list.dart';
 import 'package:flutter_project_online_shop/widgets/item_showcase_list.dart';
+import 'package:flutter_project_online_shop/widgets/loading_animation.dart';
 import 'package:loading_indicator/loading_indicator.dart';
 
 class HomePage extends StatelessWidget {
@@ -35,16 +36,7 @@ class HomePage extends StatelessWidget {
   Widget _getHomePageContent(BuildContext context, HomePageState state) {
     if (state is HomePageInitState || state is HomePageLoadingState) {
       return const SafeArea(
-        child: Center(
-          child: SizedBox(
-            height: 60,
-            width: 60,
-            child: LoadingIndicator(
-              indicatorType: Indicator.ballRotateChase,
-              colors: [CustomColors.blue],
-            ),
-          ),
-        ),
+        child: LoadingAnimation(),
       );
     }
     if (state is HomePageResponseState) {
