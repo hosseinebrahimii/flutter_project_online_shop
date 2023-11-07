@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
+import 'package:flutter_project_online_shop/util/int_extension.dart';
 import 'package:flutter_project_online_shop/widgets/cached_image.dart';
 
 class ShowCaseItem extends StatelessWidget {
@@ -122,7 +123,7 @@ class ShowCaseItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        product.price.toString(),
+                        product.price.changeToPrice(),
                         style: const TextStyle(
                           fontFamily: 'SM',
                           fontSize: 12,
@@ -132,7 +133,7 @@ class ShowCaseItem extends StatelessWidget {
                       ),
                       const Spacer(),
                       Text(
-                        product.getPriceWithDiscount().toString(),
+                        product.getPriceWithDiscount().changeToPrice(),
                         style: const TextStyle(
                           fontFamily: 'SM',
                           fontSize: 14,
