@@ -47,6 +47,7 @@ dependencies:
   uni_links: ^0.5.1
   url_launcher: ^6.1.11
   loading_indicator: ^3.1.1
+  intl: ^0.18.1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   
