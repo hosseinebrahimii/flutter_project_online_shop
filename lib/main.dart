@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/category_page/category_page_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/category_page/category_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
@@ -35,7 +36,11 @@ class MyApp extends StatelessWidget {
           create: (context) => locator.get<AuthenticationBloc>(),
         ),
         BlocProvider(
-          create: (context) => locator.get<CategoryPageBloc>(),
+          create: (context) {
+            var bloc = locator.get<CategoryPageBloc>();
+            bloc.add(CategoryPageRequestEvent());
+            return bloc;
+          },
         ),
         BlocProvider(
           create: (context) {
