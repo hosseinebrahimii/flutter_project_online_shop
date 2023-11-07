@@ -13,6 +13,7 @@ import 'package:flutter_project_online_shop/models/product_properties.dart';
 import 'package:flutter_project_online_shop/models/product_variant_type.dart';
 import 'package:flutter_project_online_shop/models/product_variants.dart';
 import 'package:flutter_project_online_shop/widgets/cached_image.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -46,7 +47,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           if (state is ProductDetailPageInitState || state is ProductDetailPageLoadingState) {
             return const SafeArea(
               child: Center(
-                child: CircularProgressIndicator(),
+                child: SizedBox(
+                  height: 60,
+                  width: 60,
+                  child: LoadingIndicator(
+                    indicatorType: Indicator.ballRotateChase,
+                    colors: [CustomColors.blue],
+                  ),
+                ),
               ),
             );
           }

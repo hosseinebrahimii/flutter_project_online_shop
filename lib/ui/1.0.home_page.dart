@@ -49,6 +49,8 @@ class HomePage extends StatelessWidget {
     }
     if (state is HomePageResponseState) {
       return RefreshIndicator(
+        color: CustomColors.blue,
+        backgroundColor: CustomColors.grey.withOpacity(0.2),
         onRefresh: () async {
           BlocProvider.of<HomePageBloc>(context).add(HomePageRequestEvent());
         },
