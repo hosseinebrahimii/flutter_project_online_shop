@@ -14,7 +14,6 @@ import 'package:flutter_project_online_shop/widgets/cached_image.dart';
 import 'package:flutter_project_online_shop/widgets/category_horizontal_list.dart';
 import 'package:flutter_project_online_shop/widgets/item_showcase_list.dart';
 import 'package:flutter_project_online_shop/widgets/loading_animation.dart';
-import 'package:loading_indicator/loading_indicator.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

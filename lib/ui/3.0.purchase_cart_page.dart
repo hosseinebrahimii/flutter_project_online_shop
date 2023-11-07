@@ -5,6 +5,7 @@ import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_car
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/purchased_product.dart';
+import 'package:flutter_project_online_shop/util/int_extension.dart';
 import 'package:flutter_project_online_shop/widgets/purchase_cart_item.dart';
 
 class PurchaseCartPage extends StatelessWidget {
@@ -207,7 +208,8 @@ class PurchaseCartPage extends StatelessWidget {
         ),
       ),
       child: Text(
-        itemsPrice.toString(),
+        '${itemsPrice.changeToPrice()} تومان',
+        textDirection: TextDirection.rtl,
         style: const TextStyle(
           fontFamily: 'SB',
           fontSize: 16,
