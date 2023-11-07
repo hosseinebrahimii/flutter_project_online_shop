@@ -37,12 +37,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   bool technicalDetailsContainerClickCheck = false;
 
   @override
-  void initState() {
-    BlocProvider.of<ProductDetailPageBloc>(context).add(ProductDetailPageRequestEvent());
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     if (imageList.isEmpty) {
       imageList.add(widget.product.getImageUrl());

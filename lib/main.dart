@@ -6,6 +6,7 @@ import 'package:flutter_project_online_shop/bloc/category_page/category_page_eve
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
@@ -36,21 +37,13 @@ class MyApp extends StatelessWidget {
           create: (context) => locator.get<AuthenticationBloc>(),
         ),
         BlocProvider(
-          create: (context) {
-            var bloc = locator.get<CategoryPageBloc>();
-            bloc.add(CategoryPageRequestEvent());
-            return bloc;
-          },
+          create: (context) => locator.get<CategoryPageBloc>()..add(CategoryPageRequestEvent()),
         ),
         BlocProvider(
-          create: (context) {
-            var bloc = locator.get<HomePageBloc>();
-            bloc.add(HomePageRequestEvent());
-            return bloc;
-          },
+          create: (context) => locator.get<HomePageBloc>()..add(HomePageRequestEvent()),
         ),
         BlocProvider(
-          create: (context) => locator.get<ProductDetailPageBloc>(),
+          create: (context) => locator.get<ProductDetailPageBloc>()..add(ProductDetailPageRequestEvent()),
         ),
         BlocProvider(
           create: (context) => locator.get<PurchaseCartPageBloc>(),
