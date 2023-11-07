@@ -2,7 +2,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
-import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_state.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_event.dart';
@@ -29,7 +28,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   String storageContainerStatus = '128';
   int storagePriceChange = 0;
   String voltageContainerStatus = '50';
-
   String imageType = 'icon_favorite_deactive.png';
   int selectedImage = 0;
   List<String> imageList = [];
@@ -41,7 +39,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     if (imageList.isEmpty) {
       imageList.add(widget.product.getImageUrl());
     }
-
     return Scaffold(
       backgroundColor: CustomColors.backgroundScreenColor,
       body: BlocBuilder<ProductDetailPageBloc, ProductDetailPageState>(
