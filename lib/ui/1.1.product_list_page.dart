@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/category.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
+import 'package:flutter_project_online_shop/ui/1.2.product_details_page.dart';
 import 'package:flutter_project_online_shop/widgets/show_case_item.dart';
 
 class ProductListPage extends StatelessWidget {
@@ -91,8 +92,19 @@ class ProductListPage extends StatelessWidget {
     return SliverGrid(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
-          return ShowCaseItem(
-            product: thisCategoryProducts[index],
+          return GestureDetector(
+            onTap: () async {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(
+                    product: thisCategoryProducts[index],
+                  ),
+                ),
+              );
+            },
+            child: ShowCaseItem(
+              product: thisCategoryProducts[index],
+            ),
           );
         },
         childCount: thisCategoryProducts.length,
