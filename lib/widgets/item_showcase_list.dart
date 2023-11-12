@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_event.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/enum_product_popularity.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
@@ -30,7 +33,10 @@ class _ItemShowCaseListState extends State<ItemShowCaseList> {
         const SizedBox(
           height: 20,
         ),
-        _showCaseList(productList: widget.productList, productType: widget.productType),
+        _showCaseList(
+          productList: widget.productList,
+          productType: widget.productType,
+        ),
       ],
     );
   }
@@ -66,7 +72,10 @@ class _ItemShowCaseListState extends State<ItemShowCaseList> {
     );
   }
 
-  Widget _showCaseList({List<Product>? productList, Popularity? productType}) {
+  Widget _showCaseList({
+    List<Product>? productList,
+    Popularity? productType,
+  }) {
     var list = typeChecker(productType);
     return SizedBox(
       height: 206,
@@ -85,6 +94,11 @@ class _ItemShowCaseListState extends State<ItemShowCaseList> {
                           builder: (context) => ProductDetailPage(
                             product: list[index],
                           ),
+                        ),
+                      );
+                      BlocProvider.of<ProductDetailPageCommentsBloc>(context).add(
+                        ProductDetailPageCommentsRequestEvent(
+                          list[index],
                         ),
                       );
                     },

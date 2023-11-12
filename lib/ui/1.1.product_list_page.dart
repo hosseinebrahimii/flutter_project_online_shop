@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_event.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/models/category.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
@@ -99,6 +102,11 @@ class ProductListPage extends StatelessWidget {
                   builder: (context) => ProductDetailPage(
                     product: thisCategoryProducts[index],
                   ),
+                ),
+              );
+              BlocProvider.of<ProductDetailPageCommentsBloc>(context).add(
+                ProductDetailPageCommentsRequestEvent(
+                  thisCategoryProducts[index],
                 ),
               );
             },

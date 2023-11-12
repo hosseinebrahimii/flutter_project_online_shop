@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_state.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_state.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_event.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
@@ -34,6 +36,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   List<String> imageList = [];
   bool explanationContainerClickCheck = false;
   bool technicalDetailsContainerClickCheck = false;
+  bool commentDetailsContainerClickCheck = false;
 
   @override
   Widget build(BuildContext context) {
@@ -169,9 +172,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           const SizedBox(
                                             height: 24,
                                           ),
-                                          _productDetailsContainer(
+                                          _productDetailsCommentContainer(
                                             title: 'نظرات کاربران:',
-                                            isCommentable: true,
                                           ),
                                           const SizedBox(
                                             height: 15,
@@ -467,96 +469,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  Container _productDetailsContainer({required String title, bool isCommentable = false}) {
-    return Container(
-      width: double.infinity,
-      height: 50,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(15),
-        ),
-        border: Border.all(
-          width: 1,
-          color: CustomColors.grey,
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/icon_left_categroy.png'),
-            const SizedBox(
-              width: 10,
-            ),
-            const Text(
-              'مشاهده',
-              style: TextStyle(
-                fontFamily: 'SB',
-                fontSize: 12,
-                color: CustomColors.blue,
-              ),
-            ),
-            const Spacer(),
-            Visibility(
-              visible: isCommentable,
-              child: Stack(
-                alignment: Alignment.centerRight,
-                clipBehavior: Clip.none,
-                children: [
-                  const SizedBox(),
-                  ...List.generate(5, (index) {
-                    return Positioned(
-                      right: index * 20,
-                      child: Container(
-                        width: 26,
-                        height: 26,
-                        decoration: BoxDecoration(
-                          color: CustomColors.grey,
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.white,
-                          ),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(6),
-                          ),
-                        ),
-                        alignment: Alignment.center,
-                        child: index == 4
-                            ? const Text(
-                                '+10',
-                                style: TextStyle(
-                                  fontFamily: 'SB',
-                                  fontSize: 12,
-                                  color: Colors.white,
-                                ),
-                              )
-                            : const SizedBox(),
-                      ),
-                    );
-                  }),
-                ],
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              title,
-              textDirection: TextDirection.rtl,
-              textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontFamily: 'SM',
-                fontSize: 12,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _productDetailsTechnicalContainer({
     required String title,
     required List<ProductProperties> productPropertiesList,
@@ -753,6 +665,224 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _productDetailsCommentContainer({
+    required String title,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        setState(
+          () {
+            commentDetailsContainerClickCheck = !commentDetailsContainerClickCheck;
+          },
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(15),
+          ),
+          border: Border.all(
+            width: 1,
+            color: CustomColors.grey,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  AnimatedRotation(
+                    duration: const Duration(milliseconds: 100),
+                    turns: (commentDetailsContainerClickCheck) ? -0.25 : 0,
+                    child: Image.asset('assets/images/icon_left_categroy.png'),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Text(
+                    'مشاهده',
+                    style: TextStyle(
+                      fontFamily: 'SB',
+                      fontSize: 12,
+                      color: CustomColors.blue,
+                    ),
+                  ),
+                  const Spacer(),
+                  BlocBuilder<ProductDetailPageCommentsBloc, ProductDetailPageCommentsState>(
+                    builder: (context, state) {
+                      if (state is ProductDetailPageCommentsLoadingState) {
+                        return const Text(
+                          '...',
+                          style: TextStyle(
+                            fontFamily: 'SM',
+                            fontSize: 12,
+                          ),
+                        );
+                      }
+                      if (state is ProductDetailPageCommentsResponseState) {
+                        return state.commentListEither.fold(
+                          (commentListError) => const SizedBox(),
+                          (commentList) => Text(
+                            '(${commentList.length} نظر)',
+                            textDirection: TextDirection.rtl,
+                            style: const TextStyle(
+                              fontFamily: 'SM',
+                              fontSize: 12,
+                            ),
+                          ),
+                        );
+                      }
+                      return const SizedBox();
+                    },
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  //
+                  Text(
+                    title,
+                    textDirection: TextDirection.rtl,
+                    textAlign: TextAlign.start,
+                    style: const TextStyle(
+                      fontFamily: 'SM',
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.fastEaseInToSlowEaseOut,
+                alignment: Alignment.topCenter,
+                child: Visibility(
+                  visible: commentDetailsContainerClickCheck,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      _getCommentSection(),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _getCommentSection() {
+    return BlocBuilder<ProductDetailPageCommentsBloc, ProductDetailPageCommentsState>(
+      builder: (context, state) {
+        if (state is ProductDetailPageCommentsLoadingState) {
+          return const Text(
+            'در حال دریافت دیدگاه ها',
+            style: TextStyle(
+              fontFamily: 'SM',
+              fontSize: 12,
+            ),
+          );
+        }
+        if (state is ProductDetailPageCommentsResponseState) {
+          return state.commentListEither.fold(
+            (commentListError) => const SizedBox(),
+            (commentList) => Column(
+              children: [
+                ...List.generate(
+                  commentList.length,
+                  (index) => Column(
+                    textDirection: TextDirection.rtl,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        textDirection: TextDirection.rtl,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CachedImage(
+                              borderRaduis: 6,
+                              imageUrl: commentList[index].user.getAvatarUrl(),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            (commentList[index].user.name == '')
+                                ? commentList[index].user.username
+                                : commentList[index].user.name,
+                            style: const TextStyle(
+                              fontFamily: 'SM',
+                              fontSize: 12,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            commentList[index].time,
+                            style: const TextStyle(
+                              fontFamily: 'SM',
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            commentList[index].date,
+                            style: const TextStyle(
+                              fontFamily: 'SM',
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 35),
+                        child: Text(
+                          commentList[index].text,
+                          textDirection: TextDirection.rtl,
+                          style: const TextStyle(
+                            fontFamily: 'SM',
+                            fontSize: 12,
+                          ),
+                        ),
+                      ),
+                      const Divider(
+                        thickness: 1,
+                        color: CustomColors.grey,
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        return const Text(
+          'خطای نامشخص هنگام دریافت دیدگاه ها',
+          style: TextStyle(
+            fontFamily: 'SM',
+            fontSize: 12,
+          ),
+        );
+      },
     );
   }
 
