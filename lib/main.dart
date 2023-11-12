@@ -7,6 +7,7 @@ import 'package:flutter_project_online_shop/bloc/home_page/home_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_event.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_event.dart';
 import 'package:flutter_project_online_shop/di/di.dart';
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
             ..add(
               PurchaseCartPagePaymentInitializationEvent(),
             ),
+        ),
+        BlocProvider(
+          create: (context) => locator.get<ProductDetailPageCommentsBloc>(),
         ),
       ],
       child: const MaterialApp(

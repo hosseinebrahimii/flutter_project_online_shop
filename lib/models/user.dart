@@ -30,4 +30,8 @@ class User {
       time: getTime(jsonObject['created']),
     );
   }
+
+  String getAvatarUrl() {
+    return 'http://startflutter.ir/api/files/$collectionId/$id/$avatar';
+  }
 }
