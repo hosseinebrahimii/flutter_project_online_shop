@@ -173,7 +173,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                             height: 24,
                                           ),
                                           _productDetailsCommentContainer(
-                                            title: 'نظرات کاربران:',
+                                            title: 'دیدگاه کاربران:',
                                           ),
                                           const SizedBox(
                                             height: 15,
@@ -731,7 +731,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         return state.commentListEither.fold(
                           (commentListError) => const SizedBox(),
                           (commentList) => Text(
-                            '(${commentList.length} نظر)',
+                            (commentList.isEmpty) ? '(دیدگاهی وجود ندارد)' : '(${commentList.length} دیدگاه)',
                             textDirection: TextDirection.rtl,
                             style: const TextStyle(
                               fontFamily: 'SM',
