@@ -14,7 +14,7 @@ class CommentDataSource extends ICommentDataSource {
   @override
   Future<List<Comment>> dataSourceGetCommentList(Product product) async {
     try {
-      var qparams = {'filter': 'product_id = "${product.id}" && user_id != "" && text != ""', 'expand': 'user_id'};
+      var qparams = {'filter': 'product_id = "${product.id}" && user_id != "" && text != "" ', 'expand': 'user_id'};
       var response = await _dio.get(
         '/collections/comment/records',
         queryParameters: qparams,
