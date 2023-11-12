@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/get_time_date.dart';
 
 class Comment {
@@ -9,6 +9,7 @@ class Comment {
   String date;
   String time;
   String text;
+  User user;
 
   Comment({
     required this.collectionId,
@@ -18,6 +19,7 @@ class Comment {
     required this.date,
     required this.time,
     required this.text,
+    required this.user,
   });
 
   factory Comment.getFromJsonMapObject(Map<String, dynamic> jsonObject) {
@@ -29,6 +31,7 @@ class Comment {
       date: getDate(jsonObject['created']),
       time: getTime(jsonObject['created']),
       text: jsonObject['text'],
+      user: User.getFromJsonMapObject(jsonObject['expand']['user_id']),
     );
   }
 }
