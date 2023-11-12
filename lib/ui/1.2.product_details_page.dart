@@ -568,8 +568,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           technicalDetailsContainerClickCheck = !technicalDetailsContainerClickCheck;
         });
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -589,9 +588,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  (explanationContainerClickCheck)
-                      ? Image.asset('assets/images/icon_down_category.png')
-                      : Image.asset('assets/images/icon_left_categroy.png'),
+                  AnimatedRotation(
+                    duration: const Duration(milliseconds: 100),
+                    turns: (technicalDetailsContainerClickCheck) ? -0.25 : 0,
+                    child: Image.asset('assets/images/icon_left_categroy.png'),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -615,43 +616,48 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   )
                 ],
               ),
-              Visibility(
-                visible: technicalDetailsContainerClickCheck,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    for (var productProperty in thisProductPropertiesList) ...{
-                      RichText(
-                        textDirection: TextDirection.rtl,
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: '${productProperty.title} :',
-                              style: const TextStyle(
-                                color: Colors.black,
-                                height: 1.8,
-                                fontFamily: 'SB',
-                                fontSize: 12,
-                              ),
-                            ),
-                            TextSpan(
-                              text: productProperty.value,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                height: 1.8,
-                                fontFamily: 'SM',
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.fastEaseInToSlowEaseOut,
+                alignment: Alignment.topCenter,
+                child: Visibility(
+                  visible: technicalDetailsContainerClickCheck,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    }
-                  ],
+                      for (var productProperty in thisProductPropertiesList) ...{
+                        RichText(
+                          textDirection: TextDirection.rtl,
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: '${productProperty.title} :',
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  height: 1.8,
+                                  fontFamily: 'SB',
+                                  fontSize: 12,
+                                ),
+                              ),
+                              TextSpan(
+                                text: productProperty.value,
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  height: 1.8,
+                                  fontFamily: 'SM',
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      }
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -670,8 +676,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           explanationContainerClickCheck = !explanationContainerClickCheck;
         });
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      child: Container(
         width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
@@ -691,9 +696,11 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  (explanationContainerClickCheck)
-                      ? Image.asset('assets/images/icon_down_category.png')
-                      : Image.asset('assets/images/icon_left_categroy.png'),
+                  AnimatedRotation(
+                    duration: const Duration(milliseconds: 100),
+                    turns: (explanationContainerClickCheck) ? -0.25 : 0,
+                    child: Image.asset('assets/images/icon_left_categroy.png'),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -717,24 +724,29 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   )
                 ],
               ),
-              Visibility(
-                visible: explanationContainerClickCheck,
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      widget.product.description,
-                      textDirection: TextDirection.rtl,
-                      textAlign: TextAlign.justify,
-                      style: const TextStyle(
-                        height: 1.8,
-                        fontFamily: 'SM',
-                        fontSize: 12,
+              AnimatedSize(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.fastEaseInToSlowEaseOut,
+                alignment: Alignment.topCenter,
+                child: Visibility(
+                  visible: explanationContainerClickCheck,
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                  ],
+                      Text(
+                        widget.product.description,
+                        textDirection: TextDirection.rtl,
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
+                          height: 1.8,
+                          fontFamily: 'SM',
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
