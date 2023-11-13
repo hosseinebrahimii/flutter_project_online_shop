@@ -807,14 +807,23 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       Row(
                         textDirection: TextDirection.rtl,
                         children: [
-                          SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CachedImage(
-                              borderRaduis: 6,
-                              imageUrl: commentList[index].user.getAvatarUrl(),
+                          if (commentList[index].user.getAvatarUrl().endsWith('/')) ...{
+                            Image.asset(
+                              'assets/images/icon_profile.png',
+                              height: 30,
+                              width: 30,
+                              scale: 1.1,
                             ),
-                          ),
+                          } else ...{
+                            SizedBox(
+                              height: 30,
+                              width: 30,
+                              child: CachedImage(
+                                borderRaduis: 6,
+                                imageUrl: commentList[index].user.getAvatarUrl(),
+                              ),
+                            ),
+                          },
                           const SizedBox(
                             width: 5,
                           ),
