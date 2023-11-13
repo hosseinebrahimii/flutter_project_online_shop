@@ -2,10 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/comment.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
+import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
 
 abstract class ICommentDataSource {
   Future<List<Comment>> dataSourceGetCommentList(Product product);
+  Future<void> dataSourcePostComment(
+    Product product,
+    User user,
+    String commentText,
+  );
 }
 
 class CommentDataSource extends ICommentDataSource {
@@ -25,7 +31,25 @@ class CommentDataSource extends ICommentDataSource {
     } on DioException catch (ex) {
       throw ApiException(ex.response!.statusCode, 'DioError occured, ${ex.response!.data['message']}');
     } catch (ex) {
-      throw ApiException(1, 'something unhandled happened, check category_datasource.dart');
+      throw ApiException(1, 'something unhandled happened, check coment_datasource.dart');
+    }
+  }
+
+  @override
+  Future<void> dataSourcePostComment(
+    Product product,
+    User user,
+    String commentText,
+  ) async {
+    try {
+      await _dio.post(
+        '/collections/comment/records',
+        data: {'product_id': product.id, 'user_id': user.id, 'text': commentText},
+      );
+    } on DioException catch (ex) {
+      throw ApiException(ex.response!.statusCode, 'DioError occured, ${ex.response!.data['message']}');
+    } catch (ex) {
+      throw ApiException(1, 'something unhandled happened, check coment_datasource.dart');
     }
   }
 }
