@@ -3,14 +3,12 @@ import 'package:flutter_project_online_shop/data/datasource/comment_datasource.d
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/comment.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
-import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
 
 abstract class ICommentRepository {
   Future<Either<String, List<Comment>>> repositoryGetCommentList(Product product);
   Future<Either<String, String>> repositoryPostComment(
     Product product,
-    User user,
     String commentText,
   );
 }
@@ -32,11 +30,10 @@ class CommentRepository extends ICommentRepository {
   @override
   Future<Either<String, String>> repositoryPostComment(
     Product product,
-    User user,
     String commentText,
   ) async {
     try {
-      await _dataSource.dataSourcePostComment(product, user, commentText);
+      await _dataSource.dataSourcePostComment(product, commentText);
       return right('دیدگاه شما ثبت گردید');
     } on ApiException catch (ex) {
       return left(ex.message!);

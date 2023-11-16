@@ -97,7 +97,7 @@ class _ItemShowCaseListState extends State<ItemShowCaseList> {
                         ),
                       );
                       BlocProvider.of<ProductDetailPageCommentsBloc>(context).add(
-                        ProductDetailPageCommentsRequestEvent(
+                        ProductDetailPageCommentsRequestCommentsEvent(
                           list[index],
                         ),
                       );

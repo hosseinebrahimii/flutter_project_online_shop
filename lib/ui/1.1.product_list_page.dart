@@ -105,7 +105,7 @@ class ProductListPage extends StatelessWidget {
                 ),
               );
               BlocProvider.of<ProductDetailPageCommentsBloc>(context).add(
-                ProductDetailPageCommentsRequestEvent(
+                ProductDetailPageCommentsRequestCommentsEvent(
                   thisCategoryProducts[index],
                 ),
               );

@@ -727,7 +727,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           ),
                         );
                       }
-                      if (state is ProductDetailPageCommentsResponseState) {
+                      if (state is ProductDetailPageCommentsResponseCommentsState) {
                         return state.commentListEither.fold(
                           (commentListError) => const SizedBox(),
                           (commentList) => Text(
@@ -793,7 +793,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           );
         }
-        if (state is ProductDetailPageCommentsResponseState) {
+        if (state is ProductDetailPageCommentsResponseCommentsState) {
           return state.commentListEither.fold(
             (commentListError) => const SizedBox(),
             (commentList) => Column(

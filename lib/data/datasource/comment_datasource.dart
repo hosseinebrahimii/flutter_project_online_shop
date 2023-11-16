@@ -2,14 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/comment.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
-import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
 
 abstract class ICommentDataSource {
   Future<List<Comment>> dataSourceGetCommentList(Product product);
   Future<void> dataSourcePostComment(
     Product product,
-    User user,
     String commentText,
   );
 }
@@ -38,13 +36,18 @@ class CommentDataSource extends ICommentDataSource {
   @override
   Future<void> dataSourcePostComment(
     Product product,
-    User user,
     String commentText,
   ) async {
     try {
       await _dio.post(
         '/collections/comment/records',
-        data: {'product_id': product.id, 'user_id': user.id, 'text': commentText},
+        data: {
+          'product_id': product.id,
+          //logged in user id should be here:
+          'user_id': 'lkg8xc50i07oedn',
+
+          'text': commentText,
+        },
       );
     } on DioException catch (ex) {
       throw ApiException(ex.response!.statusCode, 'DioError occured, ${ex.response!.data['message']}');

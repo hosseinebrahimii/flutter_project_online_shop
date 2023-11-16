@@ -5,7 +5,12 @@ abstract class ProductDetailPageCommentsState {}
 
 class ProductDetailPageCommentsLoadingState extends ProductDetailPageCommentsState {}
 
-class ProductDetailPageCommentsResponseState extends ProductDetailPageCommentsState {
+class ProductDetailPageCommentsResponseCommentsState extends ProductDetailPageCommentsState {
   Either<String, List<Comment>> commentListEither;
-  ProductDetailPageCommentsResponseState(this.commentListEither);
+  ProductDetailPageCommentsResponseCommentsState(this.commentListEither);
+}
+
+class ProductDetailPageCommentsResponsePostCommentState extends ProductDetailPageCommentsState {
+  Either<String, String> postCommentEither;
+  ProductDetailPageCommentsResponsePostCommentState(this.postCommentEither);
 }
