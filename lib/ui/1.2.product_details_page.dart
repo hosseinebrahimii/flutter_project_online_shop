@@ -673,9 +673,41 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }) {
     return GestureDetector(
       onTap: () {
-        setState(
-          () {
-            commentDetailsContainerClickCheck = !commentDetailsContainerClickCheck;
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          backgroundColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+          ),
+          builder: (context) {
+            return DraggableScrollableSheet(
+              initialChildSize: 0.4,
+              minChildSize: 0.25,
+              maxChildSize: 0.75,
+              builder: (context, scrollController) {
+                return Container(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      topRight: Radius.circular(15),
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: SingleChildScrollView(
+                    controller: scrollController,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 15,
+                    ),
+                    child: _getCommentSection(),
+                  ),
+                );
+              },
+            );
           },
         );
       },
@@ -693,87 +725,62 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  AnimatedRotation(
-                    duration: const Duration(milliseconds: 100),
-                    turns: (commentDetailsContainerClickCheck) ? -0.25 : 0,
-                    child: Image.asset('assets/images/icon_left_categroy.png'),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const Text(
-                    'مشاهده',
-                    style: TextStyle(
-                      fontFamily: 'SB',
-                      fontSize: 12,
-                      color: CustomColors.blue,
-                    ),
-                  ),
-                  const Spacer(),
-                  BlocBuilder<ProductDetailPageCommentsBloc, ProductDetailPageCommentsState>(
-                    builder: (context, state) {
-                      if (state is ProductDetailPageCommentsLoadingState) {
-                        return const Text(
-                          '...',
-                          style: TextStyle(
-                            fontFamily: 'SM',
-                            fontSize: 12,
-                          ),
-                        );
-                      }
-                      if (state is ProductDetailPageCommentsResponseCommentsState) {
-                        return state.commentListEither.fold(
-                          (commentListError) => const SizedBox(),
-                          (commentList) => Text(
-                            (commentList.isEmpty) ? '(دیدگاهی وجود ندارد)' : '(${commentList.length} دیدگاه)',
-                            textDirection: TextDirection.rtl,
-                            style: const TextStyle(
-                              fontFamily: 'SM',
-                              fontSize: 12,
-                            ),
-                          ),
-                        );
-                      }
-                      return const SizedBox();
-                    },
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  //
-                  Text(
-                    title,
-                    textDirection: TextDirection.rtl,
-                    textAlign: TextAlign.start,
-                    style: const TextStyle(
-                      fontFamily: 'SM',
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
+              Image.asset('assets/images/icon_left_categroy.png'),
+              const SizedBox(
+                width: 10,
               ),
-              AnimatedSize(
-                duration: const Duration(milliseconds: 200),
-                curve: Curves.fastEaseInToSlowEaseOut,
-                alignment: Alignment.topCenter,
-                child: Visibility(
-                  visible: commentDetailsContainerClickCheck,
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      _getCommentSection(),
-                    ],
-                  ),
+              const Text(
+                'مشاهده',
+                style: TextStyle(
+                  fontFamily: 'SB',
+                  fontSize: 12,
+                  color: CustomColors.blue,
                 ),
-              )
+              ),
+              const Spacer(),
+              BlocBuilder<ProductDetailPageCommentsBloc, ProductDetailPageCommentsState>(
+                builder: (context, state) {
+                  if (state is ProductDetailPageCommentsLoadingState) {
+                    return const Text(
+                      '...',
+                      style: TextStyle(
+                        fontFamily: 'SM',
+                        fontSize: 12,
+                      ),
+                    );
+                  }
+                  if (state is ProductDetailPageCommentsResponseCommentsState) {
+                    return state.commentListEither.fold(
+                      (commentListError) => const SizedBox(),
+                      (commentList) => Text(
+                        (commentList.isEmpty) ? '(دیدگاهی وجود ندارد)' : '(${commentList.length} دیدگاه)',
+                        textDirection: TextDirection.rtl,
+                        style: const TextStyle(
+                          fontFamily: 'SM',
+                          fontSize: 12,
+                        ),
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              //
+              Text(
+                title,
+                textDirection: TextDirection.rtl,
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                  fontFamily: 'SM',
+                  fontSize: 12,
+                ),
+              ),
             ],
           ),
         ),
