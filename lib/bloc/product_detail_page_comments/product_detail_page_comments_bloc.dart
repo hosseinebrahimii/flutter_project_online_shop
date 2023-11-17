@@ -9,17 +9,19 @@ class ProductDetailPageCommentsBloc extends Bloc<ProductDetailPageCommentsEvent,
   ProductDetailPageCommentsBloc(this._repository) : super(ProductDetailPageCommentsLoadingState()) {
     on<ProductDetailPageCommentsRequestCommentsEvent>(
       (event, emit) async {
+        emit(ProductDetailPageCommentsLoadingState());
         var commentListEither = await _repository.repositoryGetCommentList(event.product);
         emit(ProductDetailPageCommentsResponseCommentsState(commentListEither));
       },
     );
     on<ProductDetailPageCommentsRequestPostCommentEvent>(
       (event, emit) async {
-        var postCommentEither = await _repository.repositoryPostComment(
+        emit(ProductDetailPageCommentsLoadingState());
+
+        await _repository.repositoryPostComment(
           event.product,
           event.commentText,
         );
-        emit(ProductDetailPageCommentsResponsePostCommentState(postCommentEither));
         var commentListEither = await _repository.repositoryGetCommentList(event.product);
         emit(ProductDetailPageCommentsResponseCommentsState(commentListEither));
       },

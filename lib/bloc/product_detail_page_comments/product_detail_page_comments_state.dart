@@ -9,8 +9,3 @@ class ProductDetailPageCommentsResponseCommentsState extends ProductDetailPageCo
   Either<String, List<Comment>> commentListEither;
   ProductDetailPageCommentsResponseCommentsState(this.commentListEither);
 }
-
-class ProductDetailPageCommentsResponsePostCommentState extends ProductDetailPageCommentsState {
-  Either<String, String> postCommentEither;
-  ProductDetailPageCommentsResponsePostCommentState(this.postCommentEither);
-}

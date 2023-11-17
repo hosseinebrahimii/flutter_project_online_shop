@@ -699,7 +699,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     color: Colors.white,
                   ),
                   child: Stack(
-                    alignment: Alignment.bottomCenter,
+                    alignment: Alignment.topCenter,
                     children: [
                       SingleChildScrollView(
                         controller: scrollController,
@@ -711,12 +711,15 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ),
                         child: _getCommentSection(),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 10,
+                      Positioned(
+                        bottom: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 10,
+                          ),
+                          child: _getCommentingField(),
                         ),
-                        child: _getCommentingField(),
                       ),
                     ],
                   ),
@@ -824,6 +827,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               if (comment.text.isNotEmpty) {
                 BlocProvider.of<ProductDetailPageCommentsBloc>(context)
                     .add(ProductDetailPageCommentsRequestPostCommentEvent(widget.product, comment.text));
+                comment.text = '';
               }
             },
             child: const Text(
@@ -871,7 +875,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       builder: (context, state) {
         if (state is ProductDetailPageCommentsLoadingState) {
           return const Padding(
-            padding: EdgeInsets.only(bottom: 100),
+            padding: EdgeInsets.only(top: 100),
             child: LoadingAnimation(),
           );
         }
@@ -977,11 +981,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           );
         }
-
         return const Padding(
-          padding: EdgeInsets.only(
-            bottom: 100,
-          ),
+          padding: EdgeInsets.only(top: 100),
           child: Text(
             'خطای نامشخص هنگام دریافت دیدگاه ها',
             style: TextStyle(
