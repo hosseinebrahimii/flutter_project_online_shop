@@ -20,6 +20,8 @@ class ProductDetailPageCommentsBloc extends Bloc<ProductDetailPageCommentsEvent,
           event.commentText,
         );
         emit(ProductDetailPageCommentsResponsePostCommentState(postCommentEither));
+        var commentListEither = await _repository.repositoryGetCommentList(event.product);
+        emit(ProductDetailPageCommentsResponseCommentsState(commentListEither));
       },
     );
   }

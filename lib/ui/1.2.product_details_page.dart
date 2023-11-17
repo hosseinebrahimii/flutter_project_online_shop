@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page/product_detail_page_state.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_event.dart';
 import 'package:flutter_project_online_shop/bloc/product_detail_page_comments/product_detail_page_comments_state.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_cart_page_event.dart';
@@ -36,7 +37,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   List<String> imageList = [];
   bool explanationContainerClickCheck = false;
   bool technicalDetailsContainerClickCheck = false;
-  bool commentDetailsContainerClickCheck = false;
+  var comment = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -697,13 +698,27 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                     color: Colors.white,
                   ),
-                  child: SingleChildScrollView(
-                    controller: scrollController,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 15,
-                    ),
-                    child: _getCommentSection(),
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      SingleChildScrollView(
+                        controller: scrollController,
+                        padding: const EdgeInsets.only(
+                          top: 15,
+                          left: 15,
+                          right: 15,
+                          bottom: 50,
+                        ),
+                        child: _getCommentSection(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                          vertical: 10,
+                        ),
+                        child: _getCommentingField(),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -788,21 +803,100 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
+  Widget _getCommentingField() {
+    return Container(
+      height: 46,
+      decoration: const BoxDecoration(
+        color: CustomColors.backgroundScreenColor,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 16,
+          ),
+          GestureDetector(
+            onTap: () {
+              if (comment.text.isNotEmpty) {
+                BlocProvider.of<ProductDetailPageCommentsBloc>(context)
+                    .add(ProductDetailPageCommentsRequestPostCommentEvent(widget.product, comment.text));
+              }
+              SnackBar(
+                content: Container(
+                  height: 50,
+                  width: 250,
+                  color: CustomColors.backgroundScreenColor,
+                  child: const Text('دیدگاه شما ثبت گردید'),
+                ),
+              );
+            },
+            child: const Text(
+              'ثبت',
+              style: TextStyle(
+                color: CustomColors.blue,
+                fontFamily: 'SB',
+                fontSize: 16,
+              ),
+            ),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          TextField(
+            controller: comment,
+            textDirection: TextDirection.rtl,
+            decoration: const InputDecoration(
+              hintText: 'دیدگاه خود را بنویسید ...',
+              hintStyle: TextStyle(
+                color: CustomColors.grey,
+                fontFamily: 'SB',
+                fontSize: 14,
+                height: 1.5,
+              ),
+              hintTextDirection: TextDirection.rtl,
+              constraints: BoxConstraints(maxWidth: 300),
+              border: InputBorder.none,
+            ),
+            style: const TextStyle(
+              fontFamily: 'SB',
+              fontSize: 14,
+            ),
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _getCommentSection() {
     return BlocBuilder<ProductDetailPageCommentsBloc, ProductDetailPageCommentsState>(
       builder: (context, state) {
         if (state is ProductDetailPageCommentsLoadingState) {
-          return const Text(
-            'در حال دریافت دیدگاه ها',
-            style: TextStyle(
-              fontFamily: 'SM',
-              fontSize: 12,
-            ),
+          return const Padding(
+            padding: EdgeInsets.only(bottom: 100),
+            child: LoadingAnimation(),
           );
         }
         if (state is ProductDetailPageCommentsResponseCommentsState) {
           return state.commentListEither.fold(
-            (commentListError) => const SizedBox(),
+            (commentListError) => const Padding(
+              padding: EdgeInsets.only(
+                bottom: 100,
+              ),
+              child: Text(
+                'خطای سرور هنگام دریافت دیدگاه ها',
+                style: TextStyle(
+                  fontFamily: 'SM',
+                  fontSize: 12,
+                ),
+              ),
+            ),
             (commentList) => Column(
               children: [
                 ...List.generate(
@@ -891,11 +985,17 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             ),
           );
         }
-        return const Text(
-          'خطای نامشخص هنگام دریافت دیدگاه ها',
-          style: TextStyle(
-            fontFamily: 'SM',
-            fontSize: 12,
+
+        return const Padding(
+          padding: EdgeInsets.only(
+            bottom: 100,
+          ),
+          child: Text(
+            'خطای نامشخص هنگام دریافت دیدگاه ها',
+            style: TextStyle(
+              fontFamily: 'SM',
+              fontSize: 12,
+            ),
           ),
         );
       },
