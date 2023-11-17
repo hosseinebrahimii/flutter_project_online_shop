@@ -208,7 +208,10 @@ class PurchaseCartPage extends StatelessWidget {
         ),
       ),
       child: Text(
-        '${itemsPrice.changeToPrice()} تومان',
+        (itemsPrice != 0)
+            ? 'هزینه پرداخت: '
+                '${itemsPrice.changeToPrice()} تومان'
+            : 'سبد شما خالی است',
         textDirection: TextDirection.rtl,
         style: const TextStyle(
           fontFamily: 'SB',
