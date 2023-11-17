@@ -677,13 +677,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         showModalBottomSheet(
           context: context,
           isScrollControlled: true,
+          showDragHandle: true,
           backgroundColor: Colors.transparent,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20),
-              topRight: Radius.circular(20),
-            ),
-          ),
           builder: (context) {
             return DraggableScrollableSheet(
               initialChildSize: 0.4,
@@ -693,8 +688,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 return Container(
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
                     ),
                     color: Colors.white,
                   ),
