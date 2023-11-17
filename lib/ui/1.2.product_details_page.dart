@@ -825,14 +825,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 BlocProvider.of<ProductDetailPageCommentsBloc>(context)
                     .add(ProductDetailPageCommentsRequestPostCommentEvent(widget.product, comment.text));
               }
-              SnackBar(
-                content: Container(
-                  height: 50,
-                  width: 250,
-                  color: CustomColors.backgroundScreenColor,
-                  child: const Text('دیدگاه شما ثبت گردید'),
-                ),
-              );
             },
             child: const Text(
               'ثبت',

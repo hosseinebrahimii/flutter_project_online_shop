@@ -21,6 +21,8 @@ class CommentDataSource extends ICommentDataSource {
       var qparams = {
         // 'filter': 'product_id = "${product.id}"',
         'filter': 'product_id = "${product.id}" && user_id != "" && text != "" ',
+        'perPage': '999999999999999999',
+        'sort': '-created',
         'expand': 'user_id',
       };
       var response = await _dio.get(
@@ -49,7 +51,6 @@ class CommentDataSource extends ICommentDataSource {
           'product_id': product.id,
           //logged in user id should be here:
           'user_id': 'lkg8xc50i07oedn',
-
           'text': commentText,
         },
       );
