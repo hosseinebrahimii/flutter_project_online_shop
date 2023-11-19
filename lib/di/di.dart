@@ -17,6 +17,7 @@ import 'package:flutter_project_online_shop/data/repository/category_repository.
 import 'package:flutter_project_online_shop/data/repository/comment_repository.dart';
 import 'package:flutter_project_online_shop/data/repository/product_all_repository.dart';
 import 'package:flutter_project_online_shop/data/repository/purchase_cart_repository.dart';
+import 'package:flutter_project_online_shop/util/dio_provider.dart';
 import 'package:flutter_project_online_shop/util/payment_handler.dart';
 
 import 'package:get_it/get_it.dart';
@@ -36,9 +37,7 @@ Future<void> getItInit() async {
 
   //datasource folder:
   locator.registerSingleton<Dio>(
-    Dio(
-      BaseOptions(baseUrl: 'http://startflutter.ir/api/'),
-    ),
+    DioProvider().createDio(),
   );
 
   //repository folder:

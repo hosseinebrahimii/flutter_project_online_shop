@@ -13,6 +13,7 @@ import 'package:flutter_project_online_shop/bloc/purchase_cart_page/purchase_car
 import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
 import 'package:flutter_project_online_shop/models/purchased_product.dart';
+import 'package:flutter_project_online_shop/ui/0.login_page.dart';
 import 'package:flutter_project_online_shop/ui/0.main_page.dart';
 import 'package:hive_flutter/adapters.dart';
 
@@ -69,9 +70,9 @@ class MyApp extends StatelessWidget {
           create: (context) => locator.get<ProductDetailPageCommentsBloc>(),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: MainPage(),
+        home: LoginPage(),
       ),
     );
   }
