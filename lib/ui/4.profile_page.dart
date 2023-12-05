@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
+import 'package:flutter_project_online_shop/ui/0.login_page.dart';
+import 'package:flutter_project_online_shop/util/auth_manager.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -16,7 +18,36 @@ class ProfilePage extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            _profileSettingIcons(),
+            ElevatedButton(
+              onPressed: () {
+                AuthManager.logOut();
+                // Navigator.of(context).pushAndRemoveUntil(
+                //   MaterialPageRoute(
+                //     builder: (context) {
+                //       return LoginPage();
+                //     },
+                //   ),
+                //   (route) => false,
+                // );
+                // Navigator.of(context).replace(
+                //   oldRoute: MaterialPageRoute(
+                //     builder: (context) => const MainPage(),
+                //   ),
+                //   newRoute: MaterialPageRoute(
+                //     builder: (context) => LoginPage(),
+                //   ),
+                // );
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return LoginPage();
+                    },
+                  ),
+                );
+              },
+              child: const Text('خروج از حساب'),
+            ),
+            // _profileSettingIcons(),
             const Spacer(),
             _credits(),
             const SizedBox(
@@ -77,7 +108,7 @@ Column _userNameAndNumber() {
   return const Column(
     children: [
       Text(
-        'محمدجواد هاشمی',
+        'حسین ابراهیمی',
         style: TextStyle(
           fontFamily: 'SB',
           color: Colors.black,
@@ -96,72 +127,72 @@ Column _userNameAndNumber() {
   );
 }
 
-Widget _profileSettingIcons() {
-  return SizedBox(
-    height: 300,
-    child: Directionality(
-      textDirection: TextDirection.rtl,
-      child: GridView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 44),
-        itemCount: 10,
-        physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4,
-          mainAxisSpacing: 30,
-          crossAxisSpacing: 35,
-          mainAxisExtent: 80,
-        ),
-        itemBuilder: ((context, index) {
-          return Column(
-            children: [
-              _listItemIcons(),
-              const SizedBox(
-                height: 5,
-              ),
-              _listItemTitles(),
-            ],
-          );
-        }),
-      ),
-    ),
-  );
-}
+// Widget _profileSettingIcons() {
+//   return SizedBox(
+//     height: 300,
+//     child: Directionality(
+//       textDirection: TextDirection.rtl,
+//       child: GridView.builder(
+//         padding: const EdgeInsets.symmetric(horizontal: 44),
+//         itemCount: 10,
+//         physics: const NeverScrollableScrollPhysics(),
+//         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 4,
+//           mainAxisSpacing: 30,
+//           crossAxisSpacing: 35,
+//           mainAxisExtent: 80,
+//         ),
+//         itemBuilder: ((context, index) {
+//           return Column(
+//             children: [
+//               _listItemIcons(),
+//               const SizedBox(
+//                 height: 5,
+//               ),
+//               _listItemTitles(),
+//             ],
+//           );
+//         }),
+//       ),
+//     ),
+//   );
+// }
 
-Widget _listItemIcons() {
-  return Container(
-    height: 56,
-    width: 56,
-    decoration: ShapeDecoration(
-      color: CustomColors.blue,
-      shape: ContinuousRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-      ),
-      shadows: const [
-        BoxShadow(
-          color: Colors.red,
-          spreadRadius: -12,
-          blurRadius: 40,
-          offset: Offset(0, 15),
-        ),
-      ],
-    ),
-    child: const Icon(
-      Icons.mouse,
-      color: Colors.white,
-      size: 32,
-    ),
-  );
-}
+// Widget _listItemIcons() {
+//   return Container(
+//     height: 56,
+//     width: 56,
+//     decoration: ShapeDecoration(
+//       color: CustomColors.blue,
+//       shape: ContinuousRectangleBorder(
+//         borderRadius: BorderRadius.circular(40),
+//       ),
+//       shadows: const [
+//         BoxShadow(
+//           color: Colors.red,
+//           spreadRadius: -12,
+//           blurRadius: 40,
+//           offset: Offset(0, 15),
+//         ),
+//       ],
+//     ),
+//     child: const Icon(
+//       Icons.mouse,
+//       color: Colors.white,
+//       size: 32,
+//     ),
+//   );
+// }
 
-Widget _listItemTitles() {
-  return const Text(
-    'همه',
-    style: TextStyle(
-      fontFamily: 'SM',
-      fontSize: 14,
-    ),
-  );
-}
+// Widget _listItemTitles() {
+//   return const Text(
+//     'همه',
+//     style: TextStyle(
+//       fontFamily: 'SM',
+//       fontSize: 14,
+//     ),
+//   );
+// }
 
 Column _credits() {
   return const Column(
@@ -171,7 +202,7 @@ Column _credits() {
         style: TextStyle(
           fontFamily: 'SM',
           color: Colors.grey,
-          fontSize: 10,
+          fontSize: 11,
         ),
       ),
       Text(
@@ -179,15 +210,15 @@ Column _credits() {
         style: TextStyle(
           fontFamily: 'SM',
           color: Colors.grey,
-          fontSize: 10,
+          fontSize: 11,
         ),
       ),
       Text(
-        'instagram.com/mojava-dev',
+        'instagram.com/hossein.ebr4himi',
         style: TextStyle(
-          fontFamily: 'SM',
+          fontFamily: 'GB',
           color: Colors.grey,
-          fontSize: 10,
+          fontSize: 11,
         ),
       ),
     ],

@@ -1,15 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_project_online_shop/util/auth_manager.dart';
 
 class DioProvider {
-  Dio createDio() {
+  static Dio createDioWithHeader() {
     Dio dio = Dio(
       BaseOptions(
         baseUrl: 'http://startflutter.ir/api/',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization':
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb2xsZWN0aW9uSWQiOiJfcGJfdXNlcnNfYXV0aF8iLCJleHAiOjE3MDE2MTc4OTgsImlkIjoicTF5eTNtb3VvZHBodXg3IiwidHlwZSI6ImF1dGhSZWNvcmQifQ.PttMKigtZVvdYxycMv2D2IfaWBW_mP3rXnSbeEGP9Yc',
+          'Authorization': 'Bearer ${AuthManager.readAuth()}',
         },
+      ),
+    );
+    return dio;
+  }
+
+  static Dio createDioWithoutHeader() {
+    Dio dio = Dio(
+      BaseOptions(
+        baseUrl: 'http://startflutter.ir/api/',
       ),
     );
     return dio;

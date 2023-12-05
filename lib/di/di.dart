@@ -37,7 +37,7 @@ Future<void> getItInit() async {
 
   //datasource folder:
   locator.registerSingleton<Dio>(
-    DioProvider().createDio(),
+    DioProvider.createDioWithHeader(),
   );
 
   //repository folder:

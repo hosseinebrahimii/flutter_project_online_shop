@@ -57,10 +57,11 @@ class ZarinPalPaymentHandler extends PaymentHandler {
       _paymentRequest,
       (isPaymentSuccess, refID, paymentRequest) {
         if (isPaymentSuccess) {
-          print('success');
-          print(refID);
-        } else {
-          print('failed');
+          //TODO: what should happen if the payment request was successful?
+          //   print('success');
+          //   print(refID);
+          // } else {
+          //   print('failed');
         }
       },
     );

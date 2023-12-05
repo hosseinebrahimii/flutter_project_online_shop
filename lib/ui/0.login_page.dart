@@ -4,11 +4,13 @@ import 'package:flutter_project_online_shop/bloc/authentication/authentication_b
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_event.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
+import 'package:flutter_project_online_shop/widgets/loading_animation.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
   final TextEditingController usernameTextController = TextEditingController(text: 'hosseinebrahimi1');
   final TextEditingController passwordTextController = TextEditingController(text: '123456789');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,6 +75,32 @@ class LoginPage extends StatelessWidget {
               height: 20,
             ),
             _getLoginResult(context),
+            const SizedBox(
+              height: 10,
+            ),
+            BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, state) {
+                if (state is AuthenticationResponseState) {
+                  return state.response.fold(
+                    (error) => const Text(
+                      'نام کاربری یا رمز عبور اشتباه است',
+                      style: TextStyle(
+                        fontFamily: 'SB',
+                        fontSize: 12,
+                      ),
+                    ),
+                    (success) => const Text(
+                      'خوش آمدید',
+                      style: TextStyle(
+                        fontFamily: 'SB',
+                        fontSize: 12,
+                      ),
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
           ],
         ),
       ),
@@ -126,6 +154,44 @@ class LoginPage extends StatelessWidget {
   Widget _getLoginResult(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
+        return ElevatedButton(
+          onPressed: () {
+            BlocProvider.of<AuthenticationBloc>(context).add(
+              AuthenticationLoginRequestEvent(
+                usernameTextController.text,
+                passwordTextController.text,
+              ),
+            );
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: const Size(200, 48),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: (state is AuthenticationLoadingState)
+              ? const SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: LoadingAnimation(
+                    color: CustomColors.backgroundScreenColor,
+                  ),
+                )
+              : const Text(
+                  'ورود به حساب کاربری',
+                  style: TextStyle(
+                    fontFamily: 'SB',
+                    fontSize: 18,
+                  ),
+                ),
+        );
+      },
+    );
+  }
+
+  Widget _getLoginResult2(BuildContext context) {
+    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
+      builder: (context, state) {
         if (state is AuthenticationInitiateState) {
           return ElevatedButton(
             onPressed: () {
@@ -156,8 +222,22 @@ class LoginPage extends StatelessWidget {
         }
         if (state is AuthenticationResponseState) {
           return state.response.fold(
-            (l) => Text(l),
-            (r) => const Text('شما وارد شده اید'),
+            (error) => Text(
+              error,
+              style: const TextStyle(
+                fontFamily: 'SB',
+                fontSize: 12,
+              ),
+            ),
+            (success) {
+              return const Text(
+                'شما وارد شده اید',
+                style: TextStyle(
+                  fontFamily: 'SB',
+                  fontSize: 12,
+                ),
+              );
+            },
           );
         }
         return const Text('خطای نامشخص');

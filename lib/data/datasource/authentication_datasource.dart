@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
+import 'package:flutter_project_online_shop/util/dio_provider.dart';
 
 abstract class IAuthenticatorDataSource {
   Future<void> dataSourceRegister(
@@ -15,7 +15,7 @@ abstract class IAuthenticatorDataSource {
 }
 
 class AuthenticationDataSource implements IAuthenticatorDataSource {
-  final Dio _dio = locator.get();
+  final Dio _dio = DioProvider.createDioWithoutHeader();
 
   @override
   Future<void> dataSourceRegister(

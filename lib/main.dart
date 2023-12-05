@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/authentication/authentication_state.dart';
 import 'package:flutter_project_online_shop/bloc/category_page/category_page_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/category_page/category_page_event.dart';
 import 'package:flutter_project_online_shop/bloc/home_page/home_page_bloc.dart';
@@ -15,7 +16,10 @@ import 'package:flutter_project_online_shop/models/product.dart';
 import 'package:flutter_project_online_shop/models/purchased_product.dart';
 import 'package:flutter_project_online_shop/ui/0.login_page.dart';
 import 'package:flutter_project_online_shop/ui/0.main_page.dart';
+import 'package:flutter_project_online_shop/util/auth_manager.dart';
 import 'package:hive_flutter/adapters.dart';
+
+GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
 void main() async {
   await Hive.initFlutter();
@@ -37,7 +41,24 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => locator.get<AuthenticationBloc>(),
+          create: (context) {
+            AuthenticationBloc authBloc = locator.get();
+            authBloc.stream.forEach((state) {
+              if (state is AuthenticationResponseState) {
+                state.response.fold(
+                  (error) => null,
+                  (success) {
+                    navigatorKey.currentState!.push(
+                      MaterialPageRoute(
+                        builder: (context) => const MainPage(),
+                      ),
+                    );
+                  },
+                );
+              }
+            });
+            return authBloc;
+          },
         ),
         BlocProvider(
           create: (context) => locator.get<CategoryPageBloc>()
@@ -71,8 +92,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        home: LoginPage(),
+        home: (AuthManager.readAuth().isEmpty) ? LoginPage() : const MainPage(),
       ),
     );
   }
