@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         navigatorKey: navigatorKey,
         debugShowCheckedModeBanner: false,
-        home: (AuthManager.readAuth().isEmpty) ? LoginPage() : const MainPage(),
+        home: (AuthManager.readToken().isEmpty) ? LoginPage() : const MainPage(),
       ),
     );
   }
