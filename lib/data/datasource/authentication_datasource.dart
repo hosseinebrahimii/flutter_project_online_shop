@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
-import 'package:flutter_project_online_shop/util/auth_manager.dart';
 import 'package:flutter_project_online_shop/util/dio_provider.dart';
 
 abstract class IAuthenticatorDataSource {
@@ -55,9 +53,6 @@ class AuthenticationDataSource implements IAuthenticatorDataSource {
         },
       );
       if (response.statusCode == 200) {
-        await AuthManager.saveUser(
-          User.getFromJsonMapObject(response.data['record']),
-        );
         return response.data['token'];
       } else {
         return 'no token is given';

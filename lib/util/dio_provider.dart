@@ -8,7 +8,7 @@ class DioProvider {
         baseUrl: 'http://startflutter.ir/api/',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${AuthManager.readToken()}',
+          'Authorization': 'Bearer ${AuthManager.readAuth()}',
         },
       ),
     );
