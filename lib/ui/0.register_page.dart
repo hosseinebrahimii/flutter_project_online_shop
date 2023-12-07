@@ -4,13 +4,14 @@ import 'package:flutter_project_online_shop/bloc/authentication/authentication_b
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_event.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
-import 'package:flutter_project_online_shop/ui/0.register_page.dart';
+import 'package:flutter_project_online_shop/ui/0.login_page.dart';
 import 'package:flutter_project_online_shop/widgets/loading_animation.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
-  final TextEditingController usernameTextController = TextEditingController(text: 'hosseinebrahimi1');
-  final TextEditingController passwordTextController = TextEditingController(text: '123456789');
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
+  final TextEditingController usernameTextController = TextEditingController(text: '');
+  final TextEditingController passwordTextController = TextEditingController(text: '');
+  final TextEditingController passwordConfirmTextController = TextEditingController(text: '');
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +69,7 @@ class LoginPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 80,
+              height: 50,
             ),
             _getDataTextField(
               labelText: 'نام کاربری',
@@ -84,13 +85,20 @@ class LoginPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            _getLoginButton(context),
+            _getDataTextField(
+              labelText: 'تکرار رمز عبور',
+              controller: passwordConfirmTextController,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            _getRegisterButton(context),
             const SizedBox(
               height: 10,
             ),
-            _getloginErrorProvider(),
+            _getRegisterErrorProvider(),
             const Spacer(),
-            _getRegisterText(context),
+            _getLoginText(context),
             const SizedBox(
               height: 10,
             ),
@@ -100,7 +108,10 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _getDataTextField({required String labelText, required TextEditingController controller}) {
+  Widget _getDataTextField({
+    required String labelText,
+    required TextEditingController controller,
+  }) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: TextField(
@@ -144,17 +155,18 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _getLoginButton(BuildContext context) {
+  Widget _getRegisterButton(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         return ElevatedButton(
           onPressed: () {
-            BlocProvider.of<AuthenticationBloc>(context).add(
-              AuthenticationLoginRequestEvent(
-                usernameTextController.text,
-                passwordTextController.text,
-              ),
-            );
+            // BlocProvider.of<AuthenticationBloc>(context).add(
+            //   AuthenticationRegisterRequestEvent(
+            //     usernameTextController.text,
+            //     passwordTextController.text,
+            //     passwordConfirmTextController.text,
+            //   ),
+            // );
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(200, 48),
@@ -171,7 +183,7 @@ class LoginPage extends StatelessWidget {
                   ),
                 )
               : const Text(
-                  'ورود به حساب کاربری',
+                  'ثبت نام',
                   style: TextStyle(
                     fontFamily: 'SB',
                     fontSize: 18,
@@ -182,7 +194,7 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _getloginErrorProvider() {
+  Widget _getRegisterErrorProvider() {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationResponseState) {
@@ -208,37 +220,21 @@ class LoginPage extends StatelessWidget {
     );
   }
 
-  Widget _getRegisterText(BuildContext context) {
+  Widget _getLoginText(BuildContext context) {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => RegisterPage(),
+            builder: (context) => LoginPage(),
           ),
         );
       },
-      child: const Row(
-        textDirection: TextDirection.rtl,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'حساب کاربری ندارید؟',
-            style: TextStyle(
-              fontFamily: 'SM',
-              fontSize: 14,
-            ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            'ثبت نام کنید',
-            style: TextStyle(
-              fontFamily: 'SB',
-              fontSize: 14,
-            ),
-          ),
-        ],
+      child: const Text(
+        'بازگشت به صفحه ورود',
+        style: TextStyle(
+          fontFamily: 'SB',
+          fontSize: 14,
+        ),
       ),
     );
   }
