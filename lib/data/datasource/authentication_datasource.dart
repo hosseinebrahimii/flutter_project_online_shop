@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_project_online_shop/models/user.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
+import 'package:flutter_project_online_shop/util/auth_manager.dart';
 import 'package:flutter_project_online_shop/util/dio_provider.dart';
 
 abstract class IAuthenticatorDataSource {
@@ -8,13 +10,13 @@ abstract class IAuthenticatorDataSource {
     String password,
     String passwordConfirm,
   );
-  Future<String> dataSourceLogin(
+  Future<void> dataSourceLogin(
     String username,
     String password,
   );
 }
 
-class AuthenticationDataSource implements IAuthenticatorDataSource {
+class AuthenticationDataSource extends IAuthenticatorDataSource {
   final Dio _dio = DioProvider.createDioWithoutHeader();
 
   @override
@@ -43,7 +45,7 @@ class AuthenticationDataSource implements IAuthenticatorDataSource {
   }
 
   @override
-  Future<String> dataSourceLogin(String username, String password) async {
+  Future<void> dataSourceLogin(String username, String password) async {
     try {
       var response = await _dio.post(
         '/collections/users/auth-with-password',
@@ -53,9 +55,11 @@ class AuthenticationDataSource implements IAuthenticatorDataSource {
         },
       );
       if (response.statusCode == 200) {
+        await AuthManager.saveUser(
+          User.getFromJsonMapObject(response.data['record']),
+        );
+        AuthManager.saveToken(response.data['token']);
         return response.data['token'];
-      } else {
-        return 'no token is given';
       }
     } on DioException catch (ex) {
       throw ApiException(ex.response?.statusCode, ex.response?.data['message']);

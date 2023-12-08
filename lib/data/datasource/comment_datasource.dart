@@ -3,6 +3,7 @@ import 'package:flutter_project_online_shop/di/di.dart';
 import 'package:flutter_project_online_shop/models/comment.dart';
 import 'package:flutter_project_online_shop/models/product.dart';
 import 'package:flutter_project_online_shop/util/api_exception.dart';
+import 'package:flutter_project_online_shop/util/auth_manager.dart';
 
 abstract class ICommentDataSource {
   Future<List<Comment>> dataSourceGetCommentList(Product product);
@@ -14,7 +15,6 @@ abstract class ICommentDataSource {
 
 class CommentDataSource extends ICommentDataSource {
   final Dio _dio = locator.get();
-
   @override
   Future<List<Comment>> dataSourceGetCommentList(Product product) async {
     try {
@@ -50,7 +50,7 @@ class CommentDataSource extends ICommentDataSource {
         data: {
           'product_id': product.id,
           //logged in user id should be here:
-          'user_id': 'lkg8xc50i07oedn',
+          'user_id': AuthManager.readUser()!.id,
           'text': commentText,
         },
       );

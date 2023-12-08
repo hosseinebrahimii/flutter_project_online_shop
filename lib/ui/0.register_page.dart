@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
-import 'package:flutter_project_online_shop/bloc/authentication/authentication_event.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
 import 'package:flutter_project_online_shop/ui/0.login_page.dart';

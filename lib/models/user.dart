@@ -34,4 +34,28 @@ class User {
   String getAvatarUrl() {
     return 'http://startflutter.ir/api/files/$collectionId/$id/$avatar';
   }
+
+  Map<String, dynamic> convertToJsonMap() {
+    return {
+      'collectionId': collectionId,
+      'id': id,
+      'name': name,
+      'username': username,
+      'avatar': avatar,
+      'date': date,
+      'time': time,
+    };
+  }
+
+  static User convertFromJsonToUser(Map<String, dynamic> json) {
+    return User(
+      collectionId: json['collectionId'],
+      id: json['id'],
+      name: json['name'],
+      username: json['username'],
+      avatar: json['avatar'],
+      date: json['date'],
+      time: json['time'],
+    );
+  }
 }

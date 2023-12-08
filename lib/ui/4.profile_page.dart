@@ -21,28 +21,13 @@ class ProfilePage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 AuthManager.logOut();
-                // Navigator.of(context).pushAndRemoveUntil(
-                //   MaterialPageRoute(
-                //     builder: (context) {
-                //       return LoginPage();
-                //     },
-                //   ),
-                //   (route) => false,
-                // );
-                // Navigator.of(context).replace(
-                //   oldRoute: MaterialPageRoute(
-                //     builder: (context) => const MainPage(),
-                //   ),
-                //   newRoute: MaterialPageRoute(
-                //     builder: (context) => LoginPage(),
-                //   ),
-                // );
-                Navigator.of(context).pushReplacement(
+                Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(
                     builder: (context) {
                       return LoginPage();
                     },
                   ),
+                  (route) => false,
                 );
               },
               child: const Text('خروج از حساب'),
@@ -105,17 +90,17 @@ class ProfilePage extends StatelessWidget {
 }
 
 Column _userNameAndNumber() {
-  return const Column(
+  return Column(
     children: [
       Text(
-        'حسین ابراهیمی',
-        style: TextStyle(
+        (AuthManager.readUser()!.name.isEmpty) ? AuthManager.readUser()!.username : AuthManager.readUser()!.name,
+        style: const TextStyle(
           fontFamily: 'SB',
           color: Colors.black,
           fontSize: 16,
         ),
       ),
-      Text(
+      const Text(
         '09123456789',
         style: TextStyle(
           fontFamily: 'SB',

@@ -16,7 +16,7 @@ abstract class IAuthenticationRepository {
   );
 }
 
-class AuthenticationRepository implements IAuthenticationRepository {
+class AuthenticationRepository extends IAuthenticationRepository {
   final IAuthenticatorDataSource _dataSource = locator.get();
   @override
   Future<Either<String, String>> repositoryRegister(
@@ -38,18 +38,14 @@ class AuthenticationRepository implements IAuthenticationRepository {
     String password,
   ) async {
     try {
-      String token = await _dataSource.dataSourceLogin(username, password);
-      AuthManager.saveToken(token);
-
-      if (token.isNotEmpty) {
-        return right(token);
+      await _dataSource.dataSourceLogin(username, password);
+      if (AuthManager.readToken().isNotEmpty) {
+        return right(AuthManager.readToken());
       } else {
         return left('no token is given');
       }
     } on ApiException catch (ex) {
       return left(ex.message!);
-    } catch (ex) {
-      return left('Access is Denied!');
     }
   }
 }
