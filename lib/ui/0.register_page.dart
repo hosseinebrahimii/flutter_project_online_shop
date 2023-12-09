@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
+import 'package:flutter_project_online_shop/bloc/authentication/authentication_event.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_state.dart';
 import 'package:flutter_project_online_shop/constants/colors.dart';
-import 'package:flutter_project_online_shop/ui/0.login_page.dart';
 import 'package:flutter_project_online_shop/widgets/loading_animation.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -159,13 +159,13 @@ class RegisterPage extends StatelessWidget {
       builder: (context, state) {
         return ElevatedButton(
           onPressed: () {
-            // BlocProvider.of<AuthenticationBloc>(context).add(
-            //   AuthenticationRegisterRequestEvent(
-            //     usernameTextController.text,
-            //     passwordTextController.text,
-            //     passwordConfirmTextController.text,
-            //   ),
-            // );
+            BlocProvider.of<AuthenticationBloc>(context).add(
+              AuthenticationRegisterRequestEvent(
+                usernameTextController.text,
+                passwordTextController.text,
+                passwordConfirmTextController.text,
+              ),
+            );
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(200, 48),
@@ -199,14 +199,14 @@ class RegisterPage extends StatelessWidget {
         if (state is AuthenticationResponseState) {
           return state.response.fold(
             (error) => const Text(
-              'نام کاربری یا رمز عبور اشتباه است',
+              'ثبت نام شما انجام نشد، لطفا اطلاعات را با دقت پر کنید',
               style: TextStyle(
                 fontFamily: 'SB',
                 fontSize: 12,
               ),
             ),
             (success) => const Text(
-              'خوش آمدید',
+              'ثبت نام با موفقیت انجام شد، خوش آمدید',
               style: TextStyle(
                 fontFamily: 'SB',
                 fontSize: 12,
@@ -222,11 +222,7 @@ class RegisterPage extends StatelessWidget {
   Widget _getLoginText(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => LoginPage(),
-          ),
-        );
+        Navigator.pop(context);
       },
       child: const Text(
         'بازگشت به صفحه ورود',
