@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
@@ -14,15 +16,28 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.blue,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            _getLogoWidget(),
-            _getLoginWidget(context),
-          ],
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            'assets/images/loginPicture.jpeg',
+          ),
+        ),
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _getLogoWidget(),
+                _getRegisterWidget(context),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -33,34 +48,31 @@ class RegisterPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            'assets/images/icon_application.png',
-            width: 100,
-            height: 100,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(70),
+            child: Image.asset(
+              // 'assets/images/loginLogo.png',
+              'assets/images/registerLogo.jpg',
+              width: 140,
+              height: 140,
+              fit: BoxFit.cover,
+            ),
           ),
           const SizedBox(
             height: 20,
-          ),
-          const Text(
-            'اپل شاپ',
-            style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'SB',
-              fontSize: 24,
-            ),
           ),
         ],
       ),
     );
   }
 
-  Expanded _getLoginWidget(BuildContext context) {
+  Expanded _getRegisterWidget(BuildContext context) {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.all(20),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.9),
+          borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
         ),
@@ -68,25 +80,27 @@ class RegisterPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
-              height: 50,
+              height: 15,
             ),
             _getDataTextField(
-              labelText: 'نام کاربری',
+              title: 'نام کاربری',
               controller: usernameTextController,
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             _getDataTextField(
-              labelText: 'رمز عبور',
+              title: 'رمز عبور',
               controller: passwordTextController,
+              obscureText: true,
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             _getDataTextField(
-              labelText: 'تکرار رمز عبور',
+              title: 'تکرار رمز عبور',
               controller: passwordConfirmTextController,
+              obscureText: true,
             ),
             const SizedBox(
               height: 20,
@@ -99,7 +113,7 @@ class RegisterPage extends StatelessWidget {
             const Spacer(),
             _getLoginText(context),
             const SizedBox(
-              height: 10,
+              height: 15,
             ),
           ],
         ),
@@ -108,48 +122,39 @@ class RegisterPage extends StatelessWidget {
   }
 
   Widget _getDataTextField({
-    required String labelText,
+    required String title,
     required TextEditingController controller,
+    bool obscureText = false,
   }) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: TextField(
-        style: const TextStyle(fontFamily: 'GB'),
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: labelText,
-          labelStyle: const TextStyle(
-            fontFamily: 'SM',
-            color: CustomColors.grey,
-            fontSize: 16,
-          ),
-          constraints: const BoxConstraints(
-            maxWidth: 340,
-            maxHeight: 50,
-          ),
-          enabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.black,
-              width: 3,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(
+              fontFamily: 'SB',
             ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                20,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          TextField(
+            style: const TextStyle(fontFamily: 'GB'),
+            controller: controller,
+            obscureText: obscureText,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: CustomColors.grey.withOpacity(0.3),
+              border: InputBorder.none,
+              constraints: const BoxConstraints(
+                maxWidth: 340,
+                maxHeight: 50,
               ),
             ),
           ),
-          focusedBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: CustomColors.blue,
-              width: 3,
-            ),
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                20,
-              ),
-            ),
-          ),
-        ),
+        ],
       ),
     );
   }
@@ -168,9 +173,10 @@ class RegisterPage extends StatelessWidget {
             );
           },
           style: ElevatedButton.styleFrom(
-            minimumSize: const Size(200, 48),
+            elevation: 0,
+            fixedSize: const Size(140, 45),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
           child: (state is AuthenticationLoadingState)
