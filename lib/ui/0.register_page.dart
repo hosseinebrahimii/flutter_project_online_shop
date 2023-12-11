@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_project_online_shop/bloc/authentication/authentication_bloc.dart';
@@ -54,7 +53,6 @@ class RegisterPage extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(70),
             child: Image.asset(
-              // 'assets/images/loginLogo.png',
               'assets/images/registerLogo.jpg',
               width: 140,
               height: 140,
