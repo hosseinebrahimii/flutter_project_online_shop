@@ -1,9 +1,16 @@
 # flutter_project_online_shop
 
-in this project we used these things to impove our coding experience:
+This project is an online apple store, you can sign in or sign up, search through products and see their details, even comment on them, and finally buy what you want.
+Specifications:
+ - codes are based on SOLID and clean code.
+ - PocketBase was used as MBAAS (Mobile backend as a service).
+ - Hive and shared_preferences packages were used for storing data.
+ - BLoC pattern was used to improve state management and separation of concerns.
+ - get_it package was used for dependency injection.
+ - RESTful API was used to communicate with the server.
+ - contains sign up and sign in systems.
+ - contains commenting system.
  - we used api for recieving data from server.
- - we created database and repository files for managing data.
- - we used BLoC pattern for a better state management and a better separation of concerns.
- - we used multiple packages from pub.dev to make our development process easier.
+ - database and repository layers used for managing data.
 
-note that the goods in this app might have totally fake stats, so don't trust them 😁
+Note that the products in this app have totally fake stats, so don't trust them 😁
