@@ -10,7 +10,6 @@ Specifications:
  - RESTful API was used to communicate with the server.
  - contains sign up and sign in systems.
  - contains commenting system.
- - we used api for recieving data from server.
  - database and repository layers used for managing data.
 
 Note that the products in this app have totally fake stats, so don't trust them 😁
